@@ -2,3 +2,27 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.container {
+  padding: 3rem 0;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formField, .formFieldResult {
+  width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+.formFieldResult {
+  margin-top: 5rem;
+}
+
+.buttonArea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
