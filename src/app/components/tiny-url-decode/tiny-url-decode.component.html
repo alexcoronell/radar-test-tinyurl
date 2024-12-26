@@ -1,1 +1,17 @@
-<p>tiny-url-decode works!</p>
+<div class="container">
+  <form>
+    <mat-form-field class="formField">
+      <mat-label>Ingrese la Url (Recortada)</mat-label>
+      <input matInput placeholder="Ex. https://tinyurl.com/AwEjs2" value="">
+    </mat-form-field>
+    <div class="buttonArea">
+      <button mat-flat-button>Enviar</button>
+      <button mat-stroked-button>Limpiar</button>
+    </div>
+  </form>
+
+  <mat-form-field class="formFieldResult">
+    <mat-label>Url original</mat-label>
+    <input matInput readonly value="https://www.google.com">
+  </mat-form-field>
+</div>
