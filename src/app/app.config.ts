@@ -7,7 +7,7 @@ import { apiTokenInterceptor } from './interceptors/api-token.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([apiTokenInterceptor])),
     provideAnimationsAsync(),
   ],
 };

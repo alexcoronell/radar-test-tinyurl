@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 
 export const apiTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const apiToken = environment.apiToken;
+
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${apiToken}`
   });
