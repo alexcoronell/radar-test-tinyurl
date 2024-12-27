@@ -13,4 +13,10 @@ export class TinyUrlService {
 
   create = (dto: CreateEncodeUrlDto) => this.http.post(`${this.url}/create`, dto)
 
+  get = (url: string) => {
+    const domain = url.split("/")[2];
+    const tinyUrl = url.split("/").pop();
+    return this.http.get(`${this.url}/alias/${domain}/${tinyUrl}`)
+  }
+
 }

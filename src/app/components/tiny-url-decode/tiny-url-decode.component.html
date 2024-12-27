@@ -1,17 +1,36 @@
 <div class="container">
-  <form>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field class="formField">
-      <mat-label>Ingrese la Url (Recortada)</mat-label>
-      <input matInput placeholder="Ex. https://tinyurl.com/AwEjs2" value="">
+      <mat-label>Ingrese la Url (Acortada)</mat-label>
+      <input matInput placeholder="Ex. https://tinyurl.com/example" formControlName="urlFormControl" [errorStateMatcher]="errorUrlFormControl">
+      @if (urlField?.hasError('required') &&
+        urlField?.touched) {
+        <mat-error>La URL es <strong>requirida</strong></mat-error>
+        }
+
+        @if (urlField?.hasError("minLength") &&
+        urlField?.touched) {
+        <mat-error>La URL debe teber al menos <strong>10 caracteres</strong></mat-error>
+        }
+
+        @if (urlField?.hasError("maxLength") &&
+        urlField?.touched) {
+        <mat-error>La URL debe teber al máximo <strong>255 caracteres</strong></mat-error>
+        }
+
+        @if (urlField?.hasError("pattern") &&
+        urlField?.touched) {
+        <mat-error>La URL <strong>no es válida</strong></mat-error>
+        }
     </mat-form-field>
     <div class="buttonArea">
-      <button mat-flat-button>Enviar</button>
+      <button mat-flat-button>Acortar</button>
       <button mat-stroked-button>Limpiar</button>
     </div>
   </form>
 
   <mat-form-field class="formFieldResult">
-    <mat-label>Url original</mat-label>
-    <input matInput readonly value="https://www.google.com">
+    <mat-label>Url recortada</mat-label>
+    <input matInput readonly [value]="decodedUrlResponse()">
   </mat-form-field>
 </div>
