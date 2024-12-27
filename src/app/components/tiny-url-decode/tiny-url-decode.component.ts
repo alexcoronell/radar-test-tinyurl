@@ -3,6 +3,7 @@ import type { FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { LoadingComponent } from '../loading/loading.component';
 
 /* Services */
 import { TinyUrlService } from '../../services/tiny-url.service';
@@ -18,7 +19,7 @@ import { MyErrorStateMatcher } from '../../helpers/MyErrorStateMatcher.helper';
 
 @Component({
   selector: 'app-tiny-url-decode',
-  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, LoadingComponent],
   templateUrl: './tiny-url-decode.component.html',
   styleUrl: './tiny-url-decode.component.css'
 })
