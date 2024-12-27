@@ -3,13 +3,16 @@ import type { FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import type {
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { LoadingComponent } from '../loading/loading.component';
 
 /* Services */
 import { TinyUrlService } from '../../services/tiny-url.service';
-
-/* Dto's */
-import type { CreateEncodeUrlDto } from '../../dto/encodeUr.dto';
 
 /* Types */
 import type { RequestStatus } from '../../types/RequestStatus.type';
@@ -19,7 +22,7 @@ import { MyErrorStateMatcher } from '../../helpers/MyErrorStateMatcher.helper';
 
 @Component({
   selector: 'app-tiny-url-decode',
-  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, LoadingComponent],
+  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, MatSnackBarModule, LoadingComponent],
   templateUrl: './tiny-url-decode.component.html',
   styleUrl: './tiny-url-decode.component.css'
 })
@@ -27,6 +30,7 @@ export class TinyUrlDecodeComponent {
   /****************************************** Services ******************************************/
   private formBuilder = inject(FormBuilder);
   private tinyUrlService = inject(TinyUrlService);
+  private snackBarService = inject(MatSnackBar);
 
   /****************************************** Signals ******************************************/
   requestStatus = signal<RequestStatus>('init');
@@ -35,6 +39,8 @@ export class TinyUrlDecodeComponent {
   /****************************************** Properties ******************************************/
   form!: FormGroup;
   errorUrlFormControl = new MyErrorStateMatcher();
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   /****************************************** Contructor ******************************************/
   constructor() {
@@ -46,7 +52,7 @@ export class TinyUrlDecodeComponent {
   private buildForm() {
     this.form = this.formBuilder.group({
       urlFormControl: [
-        'https://tinyurl.com/muvdae7u',
+        '',
         [
           Validators.required,
           Validators.minLength(10),
@@ -80,8 +86,18 @@ export class TinyUrlDecodeComponent {
 
       },
       error: (err) => {
+        this.openSnackBar('Url no existe o no es válida');
         console.error(err);
+        this.requestStatus.set('failed')
       }
     })
+  }
+
+  openSnackBar(message: string) {
+    this.snackBarService.open(message, 'Close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000
+    });
   }
 }
