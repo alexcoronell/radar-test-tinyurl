@@ -20,6 +20,9 @@ import type { RequestStatus } from '../../types/RequestStatus.type';
 /* Helpers */
 import { MyErrorStateMatcher } from '../../helpers/MyErrorStateMatcher.helper';
 
+/* Constants */
+import { urlRegex } from '../../constants/urlRegex';
+
 @Component({
   selector: 'app-tiny-url-decode',
   imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, MatSnackBarModule, LoadingComponent],
@@ -74,10 +77,14 @@ export class TinyUrlDecodeComponent {
   onSubmit() {
     this.form.markAllAsTouched();
     if (!this.form.valid) return;
-    this.requestStatus.set('loading');
-    const encodedUrl = this.urlField?.value;
+    const url = this.urlField?.value;
+    if (!urlRegex.test(url)) {
+      this.openSnackBar('Url no es válida');
+      return
+    }
     this.decodedUrlResponse.set('');
-    this.tinyUrlService.get(encodedUrl).subscribe({
+    this.requestStatus.set('loading');
+    this.tinyUrlService.get(url).subscribe({
       next: (res) => {
         this.requestStatus.set('success')
         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -93,6 +100,7 @@ export class TinyUrlDecodeComponent {
     })
   }
 
+  /****** Open SnackBar ******/
   openSnackBar(message: string) {
     this.snackBarService.open(message, 'Close', {
       horizontalPosition: this.horizontalPosition,
